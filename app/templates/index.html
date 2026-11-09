@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TongKas</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:600px;margin:2rem auto;padding:0 1rem}
+    input,select,button{padding:.5rem;margin:.2rem 0;width:100%;box-sizing:border-box}
+    .row{display:flex;gap:.5rem}
+    .row > *{flex:1}
+    #summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;text-align:center}
+    #summary div{background:#f3f4f6;border-radius:8px;padding:.6rem}
+    ul{padding:0;list-style:none}
+    li{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid #ddd}
+    small{color:#666}
+    .del{width:auto;background:none;border:none;color:#c00;cursor:pointer}
+    .in{color:#15803d}.out{color:#b91c1c}
+  </style>
+</head>
+<body>
+  <h1>TongKas</h1>
+
+  <div class="row">
+    <input id="month" type="month" onchange="load()">
+    <a href="/export.csv" style="align-self:center;text-align:right">Export CSV</a>
+  </div>
+
+  <div id="summary"></div>
+
+  <h3>Tambah transaksi</h3>
+  <div class="row">
+    <select id="type">
+      <option value="income">Pemasukan</option>
+      <option value="expense">Pengeluaran</option>
+    </select>
+    <select id="category">
+      {% for c in categories %}<option value="{{ c }}">{{ c|capitalize }}</option>{% endfor %}
+    </select>
+  </div>
+  <input id="amount" type="number" min="1" placeholder="Jumlah (Rp)">
+  <input id="desc" placeholder="Keterangan">
+  <button onclick="add()">Simpan</button>
+
+  <ul id="list"></ul>
+
+<script>
+const rp = n => "Rp" + n.toLocaleString("id-ID");
+const esc = s => s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+async function load(){
+  const m = document.getElementById("month").value;
+  const r = await fetch("/transactions" + (m ? "?month=" + m : ""));
+  const d = await r.json();
+  document.getElementById("summary").innerHTML =
+    `<div>Masuk<br><b class="in">${rp(d.income)}</b></div>
+     <div>Keluar<br><b class="out">${rp(d.expense)}</b></div>
+     <div>Laba<br><b>${rp(d.profit)}</b></div>`;
+  document.getElementById("list").innerHTML = d.items.map(i =>
+    `<li>
+       <span>${i.type==="income"?"+":"-"} ${esc(i.description)}<br><small>${esc(i.category)}</small></span>
+       <span><b>${rp(i.amount)}</b>
+       <button class="del" onclick="del(${i.id})" title="Hapus">✕</button></span>
+     </li>`).join("");
+}
+
+async function add(){
+  const body = {
+    type: document.getElementById("type").value,
+    category: document.getElementById("category").value,
+    amount: parseInt(document.getElementById("amount").value),
+    description: document.getElementById("desc").value
+  };
+  const r = await fetch("/transactions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+  if(!r.ok){ alert((await r.json()).error); return; }
+  document.getElementById("amount").value = "";
+  document.getElementById("desc").value = "";
+  load();
+}
+
+async function del(id){
+  if(!confirm("Hapus transaksi ini?")) return;
+  await fetch("/transactions/" + id, {method:"DELETE"});
+  load();
+}
+load();
+</script>
+</body>
+</html>
