@@ -5,6 +5,9 @@ Aplikasi pencatat keuangan sederhana untuk UMKM, dibangun sebagai aplikasi multi
 
 Projek UTS Cloud Services, Semester 5.
 
+### Jawaban Lengkap Ujian
+https://docs.google.com/document/d/1MSnC3s2MFjD0T8TVM3jev-T6r-LmDhtH/edit?usp=sharing&ouid=100486892546192676012&rtpof=true&sd=true
+
 ## Latar Belakang dan Alasan Projek
 
 ### Masalah
@@ -171,6 +174,7 @@ Saya menggunakan Claude (Anthropic) sebagai asisten untuk menyusun kerangka kode
 
 ### Docker Hub (+5)
 Image: https://hub.docker.com/r/jovanst/tongkas-app
+
 Tag: `1.1.0` dan `latest`
 
 docker pull jovanst/tongkas-app:1.1.0
