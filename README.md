@@ -6,7 +6,7 @@ Aplikasi pencatat keuangan sederhana untuk UMKM, dibangun sebagai aplikasi multi
 Projek UTS Cloud Services, Semester 5.
 
 ### Jawaban Lengkap Ujian
-https://drive.google.com/file/d/15XeeNTqdkbHnAN4Tf0WrIV6A0o7hlNeZ/view?usp=sharing
+https://drive.google.com/file/d/10izROTIzbpjVqXPioDccvxRW1m2Kjjxf/view?usp=sharing
 
 ## Latar Belakang dan Alasan Projek
 
@@ -24,17 +24,15 @@ ringkasan masuk, keluar, dan laba secara otomatis. Data dapat difilter per bulan
 diekspor ke CSV.
 
 ### Mengapa saya memilih projek ini
-1. **Masalahnya nyata dan lingkupnya jelas.** [Tambahkan alasan pribadi Anda, misalnya
-   pernah melihat usaha di sekitar Anda yang tidak mencatat keuangan.] Fiturnya kecil,
-   tetapi cukup untuk memperlihatkan arsitektur tiga lapis: aplikasi, database, dan cache.
+1. **Masalahnya nyata dan lingkupnya jelas.** 
+   Pernah melihat usaha di sekitar Anda yang tidak mencatat keuangan sehingga kesulitan saat pembukuan.
+   Fiturnya kecil, tetapi cukup untuk memperlihatkan arsitektur tiga lapis: aplikasi, database, dan cache.
 2. **Cocok untuk mempelajari containerization.** Aplikasi ini memiliki beberapa komponen
    yang saling bergantung (Flask, PostgreSQL, Redis), sehingga relevan untuk mempraktikkan
    multi-stage build, Docker Compose, healthcheck, network, dan named volume.
-3. **Relevan dengan karier yang saya tuju.** Saya ingin berkarier sebagai
-   [Backend Engineer / Cloud Engineer / DevOps Engineer]. Projek ini melatih desain REST
-   API, penggunaan database relasional, caching, pengelolaan konfigurasi lewat `.env`
-   tanpa membocorkan secret, serta pengemasan aplikasi agar dapat berjalan sama di laptop
-   dan di cloud.
+3. **Relevan dengan karier yang saya tuju.** Saya ingin berkarier sebagaiSoftware Engineer. 
+   Projek ini melatih desain REST API, penggunaan database relasional, caching, pengelolaan konfigurasi lewat `.env`
+   tanpa membocorkan secret, serta pengemasan aplikasi agar dapat berjalan sama di laptop dan di cloud.
 
 ### Alasan teknis memilih teknologi
 - **Flask + gunicorn:** ringan dan mudah dipahami sehingga fokus tetap pada containerization.
