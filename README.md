@@ -7,8 +7,45 @@ Projek UTS Cloud Services, Semester 5.
 
 ## Latar Belakang dan Alasan Projek
 
-[Tulis dengan kata-kata Anda: masalah UMKM yang tidak mencatat keuangan, mengapa memilih
-projek ini, dan kaitannya dengan peran karier yang Anda tuju.]
+### Masalah
+Banyak pelaku UMKM seperti warung makan, katering rumahan, dan penjual online masih
+mencatat keuangan di buku tulis atau tidak mencatat sama sekali. Akibatnya pemilik usaha
+sulit mengetahui untung-rugi yang sebenarnya, tidak tahu pengeluaran terbesar berasal dari
+mana, dan kesulitan menunjukkan laporan sederhana saat membutuhkan pinjaman usaha.
+Aplikasi akuntansi yang ada sering terlalu rumit atau berbayar bagi usaha mikro.
+
+### Solusi
+TongKas adalah aplikasi web pencatat keuangan yang dibuat sesederhana mungkin. Pengguna
+cukup mencatat pemasukan dan pengeluaran beserta kategorinya, lalu aplikasi menampilkan
+ringkasan masuk, keluar, dan laba secara otomatis. Data dapat difilter per bulan dan
+diekspor ke CSV.
+
+### Mengapa saya memilih projek ini
+1. **Masalahnya nyata dan lingkupnya jelas.** [Tambahkan alasan pribadi Anda, misalnya
+   pernah melihat usaha di sekitar Anda yang tidak mencatat keuangan.] Fiturnya kecil,
+   tetapi cukup untuk memperlihatkan arsitektur tiga lapis: aplikasi, database, dan cache.
+2. **Cocok untuk mempelajari containerization.** Aplikasi ini memiliki beberapa komponen
+   yang saling bergantung (Flask, PostgreSQL, Redis), sehingga relevan untuk mempraktikkan
+   multi-stage build, Docker Compose, healthcheck, network, dan named volume.
+3. **Relevan dengan karier yang saya tuju.** Saya ingin berkarier sebagai
+   [Backend Engineer / Cloud Engineer / DevOps Engineer]. Projek ini melatih desain REST
+   API, penggunaan database relasional, caching, pengelolaan konfigurasi lewat `.env`
+   tanpa membocorkan secret, serta pengemasan aplikasi agar dapat berjalan sama di laptop
+   dan di cloud.
+
+### Alasan teknis memilih teknologi
+- **Flask + gunicorn:** ringan dan mudah dipahami sehingga fokus tetap pada containerization.
+- **PostgreSQL:** database relasional yang andal untuk data transaksi keuangan.
+- **Redis:** cache untuk mempercepat pembacaan data yang sering diminta.
+- **Docker Compose:** seluruh sistem dapat dijalankan dengan satu perintah dan direproduksi
+  oleh siapa pun.
+
+### Data dan kepatuhan
+TongKas menyimpan data transaksi usaha (jenis, jumlah, kategori, keterangan). Versi saat
+ini belum memiliki akun pengguna, sehingga tidak menyimpan data pribadi. Jika kelak
+ditambahkan login yang menyimpan nama dan email, data tersebut termasuk data pribadi
+menurut UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi, sehingga perlu persetujuan
+pengguna, minimisasi data, dan pengamanan seperti hash password dan HTTPS.
 
 ## Fitur
 
@@ -78,8 +115,6 @@ Menghentikan: `docker compose down` (data tetap ada) atau `docker compose down -
 
 ## Screenshot
 
-## Screenshot
-
 ### Bagian b: Dockerfile
 Ukuran image:
 ![docker images](screenshots/screenshot_bagian-b.jpeg)
@@ -125,11 +160,26 @@ Adminer (profile `tools`) masih terhubung ke network yang sama. Itu bukan error 
 
 ## Tautan
 
-- Video demo: [isi setelah diunggah]
-- Artikel: [isi setelah terbit]
+- Video demo: https://youtu.be/0qp_0W3kS8s?si=EGCDqDYmIVaT2Eb4
+- Artikel: https://docs.google.com/document/d/1qF-PFi48vafE1mAKMYuLrj7VTZM33gjYBZVl3qeT6K0/edit?usp=sharing
 
 ## AI Usage Declaration
 
-Saya menggunakan Claude (Anthropic) sebagai asisten untuk [sesuaikan: menyusun kerangka kode,
-meninjau Dockerfile dan docker-compose, menyusun draf dokumentasi]. Saya menjalankan, menguji,
-dan memahami seluruh kode, serta menulis narasi video dan artikel dengan kata-kata sendiri.
+AI Declaration Form: https://docs.google.com/document/d/1m23byq5nunZtaMba8HfjOy76fT-G-XKblDIPBav7ECk/edit?usp=sharing 
+
+Saya menggunakan Claude (Anthropic) sebagai asisten untuk menyusun kerangka kode, meninjau Dockerfile dan docker-compose, menyusun draf dokumentasi. Saya menjalankan, menguji, dan memahami seluruh kode, serta menulis narasi video dan artikel dengan kata-kata sendiri.
+
+### Docker Hub (+5)
+Image: https://hub.docker.com/r/jovanst/tongkas-app
+Tag: `1.1.0` dan `latest`
+
+docker pull jovanst/tongkas-app:1.1.0
+
+## Bonus
+
+### Redis cache (+5)
+- Service `redis` (redis:7.4-alpine) dengan healthcheck `redis-cli ping` dan volume `redisdata`.
+- `GET /transactions` di-cache 30 detik. Header `X-Cache: MISS` lalu `HIT` membuktikan cache dipakai.
+- Cache dihapus otomatis saat `POST` atau `DELETE`.
+
+Bukti: Screenshot ini sudah ada di (bagian-c, bagian-d-3)
