@@ -6,7 +6,7 @@ Aplikasi pencatat keuangan sederhana untuk UMKM, dibangun sebagai aplikasi multi
 Projek UTS Cloud Services, Semester 5.
 
 ### Jawaban Lengkap Ujian
-https://drive.google.com/file/d/1Xe0c4Wb9HX0wfR4tKfJ6zNfvMoFxyWzI/view?usp=sharing
+https://drive.google.com/file/d/15XeeNTqdkbHnAN4Tf0WrIV6A0o7hlNeZ/view?usp=sharing
 
 ## Latar Belakang dan Alasan Projek
 
